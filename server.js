@@ -1,8 +1,19 @@
+const taskRouter = require('./routes/tasks');
+const setMessage = require('./middleware/message');
+require('dotenv').config();
+const connectDB = require('./db/connect');
+const session = require('express-session');
 var express = require('express');
 var app = express();
 
+
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+
+//middleware
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(express.urlencoded({extended: false})); //invokes express middleware to parse the data that is returned when the browser posts form results.
+app.use('/tasks', setMessage, taskRouter); //invokes the message middleware and the routes you created.
 
 // use res.render to load up an ejs view file
 
@@ -26,5 +37,16 @@ app.get('/about', function(req, res) {
   res.render('pages/about');
 });
 
-app.listen(8080);
-console.log('Server is listening on port 8080');
+const port = 8080;
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+start();

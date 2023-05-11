@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <p><%= message %></p>
+<form action="/tasks" method="post">
+  <label for="name">Name:</label><br>
+  <input name="name"><br>
+  <label for="complete">Completed: </label>
+  <input type="checkbox" name="complete" value="true"><br><br>
+  <button type="submit">Add</button>
+</form>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
