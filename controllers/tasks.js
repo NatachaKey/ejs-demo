@@ -52,7 +52,7 @@ const editTask = async (req, res) => {
 
 //here in the given code we couldn´t edit correctly the checkbox - if once it is/was set to true/completed, the user wouldn´t be able to set it back to false if he wants
 // so I added lines 62-64 to fix it, is it a correct solution?
-//what do runValidators do on line 67?
+
 
 const updateTask = async (req, res) => {
   let task = false;
@@ -67,6 +67,7 @@ const updateTask = async (req, res) => {
       runValidators: true,
     });
     req.session.pendingMessage = 'The task was updated.';
+    console.dir(req.body)
     res.redirect('/tasks');
   } catch (err) {
     if (err.name === 'ValidationError') {
@@ -84,11 +85,18 @@ const updateTask = async (req, res) => {
     }
   }
 };
-
+//what do runValidators do on line 67?
+//That tells mongoose to check if the fields that were passed in (the second argument to findByIdAndUpdate, 
+  //which is req.body) pass all the validation in models/Task.js. If there's anything that.
+// doesn't pass, it will raise an error with the name ValidationError, which we're catching in line 72-76.
 const deleteTask = async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
-    req.session.pendingMessage = 'You deleted this task successfully';
+    if (!task) { 
+      req.session.pendingMessage = "The task you are trying to delete does not exist.";
+  } else {
+      req.session.pendingMessage = "The task was deleted successfully.";
+  }
     res.redirect('/tasks');
   } catch (err) {
     req.session.pendingMessage = 'Something went wrong.';
