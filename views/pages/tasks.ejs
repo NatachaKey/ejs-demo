@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+  <%- include('../partials/header'); %>
+</header>
+
+<main>
+  <p><%= message %></p>
+  <div class="jumbotron">
+    <% if (tasks.length > 0) { %>
+      <table class="table"
+        <tr><th>Name</th><th>Completed</th><th colspan="2"></th></tr>
+        <% tasks.forEach(function(task){ %>
+          <tr><td><%= task.name %></td><td><%= task.completed %></td>
+            <td><a href=<%= "/tasks/edit/" + task.id %>  class="btn btn-primary">Edit</a></td>
+            <td><a href=<%= "/tasks/delete/" + task.id %>  class="btn btn-primary">Delete</a></td>
+          </tr>
+        <% }) %>
+      </table>
+    <% } else { %>
+      <h2>There are no tasks to display.</h2>
+    <% } %>
+    <a href="/tasks/add" class="btn btn-primary">Add a Task</a>
+  </div>
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
+
+<!-- embedded JavaScript that references a variable called message, and displays the result in a paragraph.
+ There is embedded JavaScript that checks the tasks variable. This is an array of tasks. If the array is empty, 
+ there are no tasks in the database, so a message is shown. If the array is not empty a loop is executed, 
+ and a row is added for each task. Each row has an edit button and a delete button, which are links styled as buttons. 
+Note: the links include the ID of the task entry, so that the controller knows which task to edit or delete. -->

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
+
+  <main>
+    <p>
+      <%= message %>
+    </p>
+    <form action=<%= "/tasks/update/" + task.id %> method="post">
+      <label for="name">Name:</label> <br>
+      <input name="name" value="<%=task.name %>"><br>
+      <label for="complete">Completed: </label>
+      <input type="checkbox" name="complete" value="true" <%= task.completed ? "checked" : "" %>><br><br>
+      <button type="submit">Update</button>
+    </form>
+    </div>
+  </main>
+
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
+
+</body>
+
+</html>
+
+<!-- 
+When the template is loaded, it is passed a task variable for the task being edited. on line 20- value="<%=task.name %>"
+The name of the task is set as the initial value in the entry field for name.
+ There is a checkbox for completed, and this is checked if task.completed is true. -->
