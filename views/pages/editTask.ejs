@@ -15,7 +15,12 @@
     <p>
       <%= message %>
     </p>
-    <form action=<%= "/tasks/update/" + task.id %> method="post">
+<!-- 
+    when the checkbox <input> element is checked, the HTML form submit will send it's value as part of the request body. So when it's checked, and you click submit, the browser will send a request to our server that looks like:
+    { name: 'my task2', complete: '<value of the checkbox>' } the value of complete is just whatever string you put inside <input value="{here}"> -->
+      <!-- see task model- I'm using the value of task.completed to determine whether the input should start of with the checked attribute or not. The DOM takes care of adding/removing that attribute when the user clicks on the checkbox after the page is loaded. -->
+     
+      <form action=<%= "/tasks/update/" + task.id %> method="post">
       <label for="name">Name:</label> <br>
       <input name="name" value="<%=task.name %>"><br>
       <label for="complete">Completed: </label>
@@ -24,6 +29,13 @@
     </form>
     </div>
   </main>
+
+  <!-- on frontend form connects with updateTask route - in action atribute, see routes to see fn on backend
+  frontend takes task.name and task.completed from task model. lines 25, 27
+    user checks checkbox- complete: true (from html- name:value from input tag)
+  in tasks.js line 60- if complete has any value => .completed= true
+  If task.completed is true, it adds the "checked" attribute; on line 27. This allows the checkbox to be checked or unchecked based on the value of task.completed.
+is it´s checked in task model- completed is set to true ,if not it´s false-->
 
   <footer>
     <%- include('../partials/footer'); %>
